@@ -11,7 +11,6 @@ namespace QSharpContests.Tests
         public double Real;
         public double Imag;
         public double Prob;
-        public double Rad;
 
         public void Assert(double real, double imag)
         {
@@ -23,7 +22,7 @@ namespace QSharpContests.Tests
 
     public class DumpMachineParser
     {
-        List<Qubit> qubits = new List<Qubit>();
+        readonly List<Qubit> qubits = new List<Qubit>();
 
         public DumpMachineParser(string filepath)
         {
@@ -44,13 +43,12 @@ namespace QSharpContests.Tests
                 double imag = imagSign == "-" ? -double.Parse(imagVal) : double.Parse(imagVal);
 
                 double prob = double.Parse(afterColon.Substring(53, 8));
-                double rad = double.Parse(afterColon.Substring(75, 7));
+                //double rad = double.Parse(afterColon.Substring(75, 7));
 
                 qubits.Add(new Qubit() { 
                     Real = real,
                     Imag = imag,
-                    Prob = prob,
-                    Rad = rad
+                    Prob = prob
                 });
             }
         }
