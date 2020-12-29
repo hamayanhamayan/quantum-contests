@@ -14,9 +14,8 @@ namespace QSharpContests.Tests
 
         public void Assert(double real, double imag)
         {
-            const double EPS = 1e-5;
-            Real.Should().BeApproximately(real, EPS);
-            Imag.Should().BeApproximately(imag, EPS);
+            Real.Should().BeApproximately(real, Modules.EPS);
+            Imag.Should().BeApproximately(imag, Modules.EPS);
         }
     }
 
@@ -61,6 +60,19 @@ namespace QSharpContests.Tests
         public Qubit GetQubit(int idx)
         {
             return qubits[idx];
+        }
+
+        public double GetProb(int bit, bool tf)
+        {
+            double ret = 0;
+            for (int msk = 0; msk < qubits.Count; msk++)
+            {
+                if (((msk & (1 << bit)) != 0) == tf)
+                {
+                    ret += qubits[msk].Prob;
+                }
+            }
+            return ret;
         }
     }
 }

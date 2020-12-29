@@ -10,5 +10,7 @@ namespace QSharpContests.Tests
         {
             return System.IO.Path.GetFileName(filePath) + "_" + memberName + ".dump";
         }
+
+        static public double EPS = 1e-5;
     }
 }
