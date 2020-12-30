@@ -1,5 +1,7 @@
 ﻿namespace QSharpContests {
 
+    open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
 
@@ -9,5 +11,29 @@
                 X(qs[i]);
 			}
 		}
+    }
+
+    // https://github.com/microsoft/QuantumKatas/blob/master/utilities/DumpUnitary/Operations.qs
+    operation DumpUnitaryToFiles (N : Int, unitary : (Qubit[] => Unit), dumpFilePostfix: String) : Unit {
+        let size = 1 <<< N;
+        
+        using (qs = Qubit[N]) {
+            for (k in 0 .. size - 1) {                
+                // Prepare k-th basis vector
+                let binary = IntAsBoolArray(k, N);
+                
+                //Message($"{k}/{N} = {binary}");
+                // binary is little-endian notation, so the second vector tried has qubit 0 in state 1 and the rest in state 0
+                ApplyPauliFromBitString(PauliX, true, binary, qs);
+                
+                // Apply the operation
+                unitary(qs);
+                
+                // Dump the contents of the k-th column
+                DumpMachine($"{k}_{dumpFilePostfix}");
+                
+                ResetAll(qs);
+            }
+        }
     }
 }
