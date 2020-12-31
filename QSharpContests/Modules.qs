@@ -1,5 +1,6 @@
 ﻿namespace QSharpContests {
 
+    open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Diagnostics;
     open Microsoft.Quantum.Convert;
     open Microsoft.Quantum.Canon;
@@ -36,4 +37,19 @@
             }
         }
     }
+
+    operation ParseInt(le: LittleEndian) : Int {
+        mutable ret = 0;
+        mutable p = 1;
+        let qs = le!;
+
+        for (i in 0..Length(qs)-1) {
+            if (M(qs[i]) == One) {
+                set ret = ret + p;
+			}
+            set p = p * 2;
+		}
+
+        return ret;
+	}
 }
