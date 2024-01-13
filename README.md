@@ -1,3 +1,2 @@
-# Q# Contests
+# Quantum Contests
 
-Q#での実装例をまとめている。
